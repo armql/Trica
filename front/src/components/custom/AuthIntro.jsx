@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-export default function LoginIntro({ type, close, closeIcon }) {
+export default function AuthIntro({ type, close, closeIcon }) {
   return (
     <Fragment>
       <div className="w-full py-8 flex justify-start items-center">
