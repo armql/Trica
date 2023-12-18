@@ -9,12 +9,17 @@ export default function Input({
   value,
   essentials,
   essentialsType,
+  isError,
 }) {
   const Icon = essentials[essentialsType];
 
   return (
     <Fragment>
-      <div className="flex flex-row gap-2 border-b items-center justify-start">
+      <div
+        className={`flex flex-row gap-2 border-b items-center justify-start ${
+          isError === true ? "border-red-400" : "border-zinc-300"
+        }`}
+      >
         {Icon}
         {essentials.mail}
         <input
