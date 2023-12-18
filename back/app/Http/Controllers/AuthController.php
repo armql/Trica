@@ -18,16 +18,10 @@ class AuthController extends Controller
 
     $currentTimestamp = now();
 
-    $employee = Employee::create([
-        'name' => $data['name'],
-        'creation_date' => $currentTimestamp,
-    ]);
-
     $user = User::create([
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => bcrypt($data['password']),
-        'employee_id' => $employee->id,
     ]);
 
     $token = $user->createToken('main')->plainTextToken;
@@ -46,7 +40,6 @@ class AuthController extends Controller
             $remember = $credentials['remember'] ?? false;
             unset($credentials['remember']);
 
-            // Check if the user exists
             $user = User::where('email', $credentials['email'])->first();
             if (!$user) {
                 return response()->json([
@@ -60,7 +53,6 @@ class AuthController extends Controller
                 ], 422);
             }
 
-            // Handle successful login
             $user = Auth::user();
             $token = $user->createToken('main')->plainTextToken;
 
@@ -69,10 +61,8 @@ class AuthController extends Controller
                 'token' => $token
             ]);
         } catch (\Exception $e) {
-            // Log the error for debugging
             Log::error($e);
 
-            // Return a generic error message
             return response()->json([
                 'error' => 'An unexpected error occurred. Please try again later.'
             ], 500);
