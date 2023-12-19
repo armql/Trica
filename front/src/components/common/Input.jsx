@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 export default function Input({
   type,
@@ -12,13 +12,14 @@ export default function Input({
   isError,
 }) {
   const Icon = essentials[essentialsType];
+  const [effect, setEffect] = useState(false);
 
   return (
     <Fragment>
       <div
-        className={`flex flex-row gap-2 border-b items-center justify-start ${
+        className={`flex flex-row gap-2 border-b items-center bg-transparent justify-start transition-all duration-300 ${
           isError === true ? "border-red-400" : "border-zinc-300"
-        }`}
+        } ${effect ? "border-black" : ""}`}
       >
         {Icon}
         {essentials.mail}
@@ -26,6 +27,8 @@ export default function Input({
           type={type}
           name={name}
           id={id}
+          onFocus={() => setEffect(true)}
+          onBlur={() => setEffect(false)}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
