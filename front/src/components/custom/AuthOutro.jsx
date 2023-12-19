@@ -2,9 +2,7 @@ import React from "react";
 import Button from "../common/Button";
 import useToggle from "../../hooks/useToggle";
 
-export default function AuthOutro({ essentials, type }) {
-  const { auto, effect } = useToggle();
-
+export default function AuthOutro({ essentials, type, effect, auto }) {
   return (
     <div className="py-4 flex-shrink-0 px-0">
       <div
