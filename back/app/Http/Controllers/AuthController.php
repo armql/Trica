@@ -16,8 +16,6 @@ class AuthController extends Controller
 {
     $data = $request->validated();
 
-    $currentTimestamp = now();
-
     $user = User::create([
         'name' => $data['name'],
         'email' => $data['email'],
