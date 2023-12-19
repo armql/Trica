@@ -1,38 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../common/Input";
-import useToggle from "../../hooks/useToggle";
 import AuthOutro from "../custom/AuthOutro";
-
-function validateForm(form) {
-  let errors = {};
-
-  if (!/\S+@\S+\.\S+/.test(form.email)) {
-    errors.email = "Email is invalid";
-  }
-
-  if (!/^[a-zA-Z0-9]+$/.test(form.username)) {
-    errors.username = "Username should only contain letters and numbers";
-  }
-
-  if (
-    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-      form.password
-    )
-  ) {
-    errors.password =
-      "Password should contain at least 8 characters, 1 uppercase letter, 1 number and 1 special character";
-  }
-
-  if (form.password !== form.password_confirmation) {
-    errors.password_confirmation =
-      "Password confirmation does not match password";
-  }
-
-  return Object.keys(errors).length > 0 ? errors : null;
-}
+import axiosClient from "../../api/axios/axios";
+import validateForm from "./validate/validateForm";
+import Signup from "./Signup";
+import Signin from "./Signin";
+import { useStateContext } from "../../contexts/AuthProvider";
+import useToggle from "../../hooks/useToggle";
 
 export default function AuthForm({ essentials, type }) {
+  const { currentUser, setCurrentUser, setUserToken } = useStateContext();
   const { auto, effect } = useToggle();
   const [form, setForm] = useState({
     username: "",
@@ -41,22 +19,43 @@ export default function AuthForm({ essentials, type }) {
     password_confirmation: "",
   });
   const [error, setError] = useState({ __html: "" });
+  const [isError, setIsError] = useState({
+    username: false,
+    email: false,
+    password: false,
+    password_confirmation: false,
+  });
   const [submitting, setSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+    setIsError((prevIsError) => ({
+      ...prevIsError,
+      [name]: false,
+    }));
+    setError((prevError) => ({
+      ...prevError,
+      [name]: "",
+    }));
   };
 
   const handleSignup = async (ev) => {
     ev.preventDefault();
-    const errors = validateForm(form);
+    const errors = validateForm(form, "signup");
     if (errors) {
       setError(errors);
+      setIsError(
+        Object.keys(errors).reduce((acc, key) => {
+          acc[key] = true;
+          return acc;
+        }, {})
+      );
       return;
     }
     setSubmitting(true);
@@ -69,10 +68,59 @@ export default function AuthForm({ essentials, type }) {
       });
       navigate("../home");
     } catch (error) {
-      // Handle error...
+      console.log(error);
     } finally {
       setSubmitting(false);
     }
+  };
+  const handleSignin = async (ev) => {
+    ev.preventDefault();
+    setSubmitting(true);
+    const errors = validateForm(form, "signin");
+    if (errors) {
+      setError(errors);
+      setIsError(
+        Object.keys(errors).reduce((acc, key) => {
+          acc[key] = true;
+          return acc;
+        }, {})
+      );
+      setSubmitting(false);
+      return;
+    }
+
+    axiosClient
+      .post("/login", {
+        email: form.email,
+        password: form.password,
+        remember: effect,
+      })
+      .then(({ data }) => {
+        setCurrentUser(data.user);
+        setUserToken(data.token);
+        if (data.user.role === "customer") {
+          navigate("/app");
+        } else if (data.user.role === "manager") {
+          navigate("/user");
+        } else {
+          navigate("/unknown-role");
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errors
+        ) {
+          setError(error.response.data.errors);
+        } else {
+          setError({ __html: "An error occurred during signup." });
+        }
+        console.log(error);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   if (submitting) {
@@ -80,49 +128,35 @@ export default function AuthForm({ essentials, type }) {
   }
 
   return (
-    <form onSubmit={handleSignup} className="flex flex-col gap-4 h-full">
-      {type === "signup" && (
-        <Input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
-          value={form.email}
+    <form
+      onSubmit={type === "signup" ? handleSignup : handleSignin}
+      className="flex flex-col gap-4 h-full"
+    >
+      {type === "signup" ? (
+        <Signup
           onChange={handleInputChange}
-          essentialsType="email"
+          form={form}
+          isError={isError}
+          essentials={essentials}
+        />
+      ) : (
+        <Signin
+          onChange={handleInputChange}
+          form={form}
+          isError={isError}
           essentials={essentials}
         />
       )}
-      <Input
-        type="text"
-        name="username"
-        id="username"
-        placeholder="Username"
-        value={form.username}
-        onChange={handleInputChange}
-        essentialsType="name"
-        essentials={essentials}
-      />
-      <Input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={handleInputChange}
-        essentialsType="password"
-        essentials={essentials}
-      />
-      <div className="font-light text-sm text-zinc-300">
-        {error === ""
-          ? error
-          : "At least 8 characters, 1 uppercase letter, 1 number & 1 symbol"}
-      </div>
+      {Object.values(error).map((errorMsg, index) => (
+        <div key={index} className="font-normal text-xs text-zinc-800">
+          {errorMsg}
+        </div>
+      ))}
       <AuthOutro
-        effect={effect}
         essentials={essentials}
-        auto={auto}
         type={type}
+        effect={effect}
+        auto={auto}
       />
     </form>
   );
