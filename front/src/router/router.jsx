@@ -6,6 +6,7 @@ import Auth from "../views/auth/Auth";
 import Home from "../views/home/home";
 import Dashboard from "../views/dashboard/Dashboard";
 import ManagerLayout from "../layouts/ManagerLayout";
+import CustomerLayout from "../layouts/CustomerLayout";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <ManagerLayout />,
+    element: <CustomerLayout />,
     children: [
       {
         path: "/app",
