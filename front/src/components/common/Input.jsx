@@ -17,9 +17,15 @@ export default function Input({
   return (
     <Fragment>
       <div
-        className={`flex flex-row gap-2 border-b items-center bg-transparent justify-start transition-all duration-300 ${
-          isError === true ? "border-red-400" : "border-zinc-300"
-        } ${effect ? "border-black" : ""}`}
+        className={`flex flex-row gap-2 border-b items-center bg-transparent justify-start transition-all outline-none duration-300 ${
+          effect
+            ? isError
+              ? "border-red-400"
+              : "border-black"
+            : isError
+            ? "border-red-400"
+            : "border-zinc-300"
+        }`}
       >
         {Icon}
         {essentials.mail}
@@ -32,7 +38,7 @@ export default function Input({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className="px-1.5 placeholder:text-zinc-300 placeholder:font-normal py-2 text-base w-full outline-none bg-transparent font-semibold placeholder-white bg-white"
+          className="px-1.5 placeholder:text-zinc-300 placeholder:font-normal py-2 text-base w-full outline-none bg-transparent font-semibold placeholder-white bg-white focus:bg-white focus:outline-none"
         />
       </div>
     </Fragment>
