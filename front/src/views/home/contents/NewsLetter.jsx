@@ -35,45 +35,34 @@ export default function NewsLetter() {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-col gap-2 px-4 pt-8 pb-4">
-        <div className="font-semibold text-3xl text-zinc-800">Today</div>
-        <div className="flex flex-row gap-3">
-          <div className="text-2xl font-semibold"> New&Popular</div>
-          <div className="text-2xl font-semibold text-zinc-300 hover:text-zinc-800">
-            Story
+    <div className="px-2">
+      <div className="w-full h-[320px] shadow-sm rounded-lg relative flex flex-col bg-amber-400 items-start transition-transform justify-end">
+        <img
+          src={data[currentSlide].image}
+          alt=""
+          className="absolute top-0 left-0 right-0 bottom-0 object-cover w-full h-full overflow-hidden rounded-lg"
+        />
+        <div className="flex flex-col gap-1 z-10 p-6">
+          <div className="font-medium text-white">New in</div>
+          <div className="text-white font-semibold text-xl">
+            {data[currentSlide].title}
           </div>
-        </div>
-      </div>
-      <div className="px-2">
-        <div className="w-full h-[320px] shadow-sm rounded-lg relative flex flex-col bg-amber-400 items-start transition-transform justify-end">
-          <img
-            src={data[currentSlide].image}
-            alt=""
-            className="absolute top-0 left-0 right-0 bottom-0 object-cover w-full h-full overflow-hidden rounded-lg"
-          />
-          <div className="flex flex-col gap-1 z-10 p-6">
-            <div className="font-medium text-white">New in</div>
-            <div className="text-white font-semibold text-xl">
-              {data[currentSlide].title}
-            </div>
-            <div className="text-white font-medium text-sm">
-              ${data[currentSlide].price} USD
-            </div>
-            <div className="pt-4 gap-1 flex flex-row">
-              {data.map((slide, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => changeSlide(index)}
-                  className={`h-1 rounded-full ${
-                    currentSlide === index
-                      ? "bg-white w-10"
-                      : "w-2 bg-white bg-opacity-40"
-                  } transition-all duration-300 hover:bg-opacity-80`}
-                ></button>
-              ))}
-            </div>
+          <div className="text-white font-medium text-sm">
+            ${data[currentSlide].price} USD
+          </div>
+          <div className="pt-4 gap-1 flex flex-row">
+            {data.map((slide, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => changeSlide(index)}
+                className={`h-1 rounded-full ${
+                  currentSlide === index
+                    ? "bg-white w-10"
+                    : "w-2 bg-white bg-opacity-40"
+                } transition-all duration-300 hover:bg-opacity-80`}
+              ></button>
+            ))}
           </div>
         </div>
       </div>
