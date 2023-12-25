@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/AuthProvider";
 import axiosClient from "../api/axios/axios";
+import Nav from "../views/navigation/Nav";
 
 export default function CustomerLayout() {
   const { currentUser, userToken, setCurrentUser } = useStateContext();
@@ -28,8 +29,10 @@ export default function CustomerLayout() {
     navigate("../auth");
   } else {
     return (
-      <div>
+      <div className="relative">
+        <Nav />
         <Outlet />
+        <div className="w-full h-16"></div>
       </div>
     );
   }
