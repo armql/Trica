@@ -3,7 +3,9 @@ import NotFound from "../layouts/NotFound";
 import GuestLayout from "../layouts/GuestLayout";
 import { Suspense } from "react";
 import Auth from "../views/auth/Auth";
-import Home from "../views/home/home";
+import Home from "../views/home/Home";
+import Profile from "../views/profile/Profile";
+import Search from "../views/search/Search";
 import Dashboard from "../views/dashboard/Dashboard";
 import ManagerLayout from "../layouts/ManagerLayout";
 import CustomerLayout from "../layouts/CustomerLayout";
@@ -48,6 +50,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading</div>}>
             <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <Suspense fallback={<div>Loading</div>}>
+            <Profile />
+          </Suspense>
+        ),
+      },
+      {
+        path: "search",
+        element: (
+          <Suspense fallback={<div>Loading</div>}>
+            <Search />
           </Suspense>
         ),
       },
