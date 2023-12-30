@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 
-export default function Input({
+function Input({
   type,
   name,
   placeholder,
@@ -10,10 +10,11 @@ export default function Input({
   essentials,
   essentialsType,
   isError,
+  effect,
+  onFocus,
+  onBlur,
 }) {
   const Icon = essentials[essentialsType];
-  const [effect, setEffect] = useState(false);
-
   return (
     <Fragment>
       <div
@@ -33,8 +34,8 @@ export default function Input({
           type={type}
           name={name}
           id={id}
-          onFocus={() => setEffect(true)}
-          onBlur={() => setEffect(false)}
+          onFocus={onFocus}
+          onBlur={onBlur}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
@@ -44,3 +45,4 @@ export default function Input({
     </Fragment>
   );
 }
+export default React.memo(Input);
