@@ -1,14 +1,16 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import NotFound from "../layouts/NotFound";
-import GuestLayout from "../layouts/GuestLayout";
+import {
+  Home,
+  CustomerLayout,
+  ManagerLayout,
+  GuestLayout,
+  NotFound,
+  Auth,
+  Search,
+  Profile,
+  Dashboard,
+} from "./imports/global";
 import { Suspense } from "react";
-import Auth from "../views/auth/Auth";
-import Home from "../views/home/Home";
-import Profile from "../views/profile/Profile";
-import Search from "../views/search/Search";
-import Dashboard from "../views/dashboard/Dashboard";
-import ManagerLayout from "../layouts/ManagerLayout";
-import CustomerLayout from "../layouts/CustomerLayout";
 
 const router = createBrowserRouter([
   {
