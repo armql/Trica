@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useCallback, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../common/Input";
 import AuthOutro from "../custom/AuthOutro";
@@ -29,23 +29,21 @@ export default function AuthForm({ essentials, type }) {
 
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
-    setForm({
-      ...form,
+
+    setForm((prevForm) => ({
+      ...prevForm,
       [name]: value,
-    });
+    }));
+
     setIsError((prevIsError) => ({
       ...prevIsError,
       [name]: false,
     }));
-    setError((prevError) => ({
-      ...prevError,
-      [name]: "",
-    }));
-  };
+  }, []);
 
-  const handleSignup = async (ev) => {
+  const handleSignup = useCallback(async (ev) => {
     ev.preventDefault();
     const errors = validateForm(form, "signup");
     if (errors) {
@@ -72,8 +70,9 @@ export default function AuthForm({ essentials, type }) {
     } finally {
       setSubmitting(false);
     }
-  };
-  const handleSignin = async (ev) => {
+  }, []);
+
+  const handleSignin = useCallback(async (ev) => {
     ev.preventDefault();
     setSubmitting(true);
     const errors = validateForm(form, "signin");
@@ -121,7 +120,7 @@ export default function AuthForm({ essentials, type }) {
       .finally(() => {
         setSubmitting(false);
       });
-  };
+  }, []);
 
   if (submitting) {
     return <div>Submitting</div>;
@@ -134,6 +133,7 @@ export default function AuthForm({ essentials, type }) {
     >
       {type === "signup" ? (
         <Signup
+          setIsError={setIsError}
           onChange={handleInputChange}
           form={form}
           isError={isError}
@@ -147,11 +147,13 @@ export default function AuthForm({ essentials, type }) {
           essentials={essentials}
         />
       )}
-      {Object.values(error).map((errorMsg, index) => (
-        <div key={index} className="font-normal text-xs text-zinc-800">
-          {errorMsg}
-        </div>
-      ))}
+      <div className="h-32 flex flex-col gap-2">
+        {Object.values(error).map((errorMsg, index) => (
+          <div key={index} className="font-normal text-xs text-zinc-800">
+            {errorMsg}
+          </div>
+        ))}
+      </div>
       <AuthOutro
         essentials={essentials}
         type={type}
