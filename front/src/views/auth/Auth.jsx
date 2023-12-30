@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, Suspense, lazy, useState } from "react";
 import authBG from "../../assets/images/auth-bg-2.webp";
 import useOnLoad from "../../hooks/useOnLoad";
 import Authentication from "./authentication/Authentication";
 import useAuth from "../../hooks/useAuth";
+const Header = lazy(() => import("../../features/Auth/components/Header"));
 export default function Auth() {
   const { isOnLoad } = useOnLoad();
   const { isAuth, toggleAuth, closeAuth, type } = useAuth();
@@ -10,17 +11,9 @@ export default function Auth() {
   if (!isAuth) {
     return (
       <div className="relative  w-screen h-screen bg-[#CD121F]">
-        <div className="w-full h-full absolute  backdrop-blur-[1px] bg-opacity-10 bg-white left-0 top-0 right-0 bottom-0 z-10"></div>
-        <div className="flex items-center flex-col absolute z-10">
-          <div className="py-8 px-2 text-orange-400 font-light tracking-tighter text-2xl text-start">
-            Buy & Sell Authentic
-          </div>
-        </div>
-        <div className="flex mt-6 items-center flex-col absolute z-10">
-          <div className="py-10 italic tracking-wide px-2 font-bold bg-gradient-to-b from-white to-zinc-300 bg-clip-text text-transparent text-5xl text-start">
-            Trica Store
-          </div>
-        </div>
+        <Suspense fallback={<div>Loading..</div>}>
+          <Header />
+        </Suspense>
         <div className="absolute z-10 w-full h-full flex justify-end flex-col px-10 gap-4 py-12">
           <div className="w-full mx-auto">
             <button
