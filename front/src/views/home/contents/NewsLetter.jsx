@@ -35,7 +35,7 @@ export default function NewsLetter() {
   };
 
   return (
-    <div className="px-2">
+    <article className="px-2">
       <div className="w-full h-[320px] shadow-sm rounded-lg relative flex flex-col bg-amber-400 items-start transition-transform justify-end">
         <img
           src={data[currentSlide].image}
@@ -66,6 +66,6 @@ export default function NewsLetter() {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
