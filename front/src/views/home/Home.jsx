@@ -7,8 +7,8 @@ export default function Home() {
   const { close, effect, open } = useToggle();
 
   return (
-    <div className="w-full h-full flex bg-white flex-col gap-12 py-4">
-      <div className="flex flex-col gap-4">
+    <section className="w-full h-full flex bg-white flex-col gap-12 py-4">
+      <article className="flex flex-col gap-4">
         <div className="flex flex-col gap-2 px-4 pt-8">
           <div className="font-semibold text-3xl text-zinc-900">Today</div>
           <div className="flex flex-row gap-3">
@@ -33,9 +33,9 @@ export default function Home() {
           </div>
         </div>
         {!effect && <NewsLetter />}
-      </div>
+      </article>
 
       {!effect ? <NewnPopular /> : <Story />}
-    </div>
+    </section>
   );
 }
