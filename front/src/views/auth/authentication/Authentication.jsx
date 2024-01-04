@@ -6,7 +6,7 @@ import AuthIntro from "../../../components/custom/AuthIntro";
 
 export default function Authentication({ type, close }) {
   return (
-    <div className="px-8">
+    <div className="px-8 w-full h-full">
       <AuthIntro type={type} closeIcon={essentials.close} close={close} />
       <Social essentials={essentials} />
       <div className="w-full h-px bg-zinc-200 my-6"></div>
