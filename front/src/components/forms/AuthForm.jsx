@@ -1,6 +1,5 @@
-import React, { Fragment, useCallback, useReducer, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "../common/Input";
 import AuthOutro from "../custom/AuthOutro";
 import axiosClient from "../../api/axios/axios";
 import validateForm from "./validate/validateForm";
@@ -8,9 +7,10 @@ import Signup from "./Signup";
 import Signin from "./Signin";
 import { useStateContext } from "../../contexts/AuthProvider";
 import useToggle from "../../hooks/useToggle";
+import essentials from "../../assets/svg/essentials/essentials";
 
-export default function AuthForm({ essentials, type }) {
-  const { currentUser, setCurrentUser, setUserToken } = useStateContext();
+export default function AuthForm({ type }) {
+  const { setCurrentUser, setUserToken } = useStateContext();
   const { auto, effect } = useToggle();
   const [form, setForm] = useState({
     username: "",

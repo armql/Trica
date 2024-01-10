@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import Input from "../common/Input";
 
 export default function Signup({ form, onChange, essentials, isError }) {

@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, lazy, useState } from "react";
+import { Suspense, lazy } from "react";
 import authBG from "../../assets/images/auth-bg-2.webp";
 import useOnLoad from "../../hooks/useOnLoad";
 import Authentication from "./authentication/Authentication";
