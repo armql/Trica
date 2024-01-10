@@ -1,6 +1,6 @@
-import React from "react";
+import essentials from "../../assets/svg/essentials/essentials";
 
-export default function Social({ essentials }) {
+export default function Social() {
   return (
     <div className="flex flex-row gap-2 items-center bg-gray-200 justify-around my-4 py-2 rounded-2xl">
       <div className="rounded-full active:cursor-wait transition shadow-sm hover:scale-105 active:scale-110">

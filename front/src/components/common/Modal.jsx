@@ -1,4 +1,3 @@
-import React from "react";
 import Backdrop from "./Backdrop";
 
 export default function Modal({ children }) {

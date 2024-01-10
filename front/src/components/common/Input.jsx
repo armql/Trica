@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 
 function Input({
   type,
@@ -45,4 +45,4 @@ function Input({
     </Fragment>
   );
 }
-export default React.memo(Input);
+export default Input;

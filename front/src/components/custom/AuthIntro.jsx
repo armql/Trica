@@ -1,6 +1,7 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
+import essentials from "../../assets/svg/essentials/essentials";
 
-export default function AuthIntro({ type, close, closeIcon }) {
+export default function AuthIntro({ type, close }) {
   return (
     <Fragment>
       <div className="w-full py-8 flex justify-start items-center">
@@ -9,7 +10,7 @@ export default function AuthIntro({ type, close, closeIcon }) {
           onClick={close}
           className="rounded-full p-2 flex justify-center items-center bg-zinc-100 hover:bg-transparent border border-zinc-200 active:cursor-wait active:bg-zinc-200"
         >
-          {closeIcon}
+          {essentials.close}
         </button>
       </div>
       <div className="text-3xl font-semibold">

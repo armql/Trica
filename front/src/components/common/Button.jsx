@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 
 export default function Button({ type, onClick, style, children }) {
   return (
